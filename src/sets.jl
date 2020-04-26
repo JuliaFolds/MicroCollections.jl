@@ -67,3 +67,21 @@ end
 # fast-path:
 SingletonSet((x,)::Tuple{T}) where {T} = SingletonSet{T}(x)
 SingletonSet{T}((x,)::Tuple{Any}) where {T} = SingletonSet{T}(convert(T, x)::T)
+
+function Base.showarg(io::IO, x::EmptySet{<:Any,Set}, toplevel::Bool)
+    @nospecialize
+    print(io, "EmptySet")
+    toplevel && print(io, '{', eltype(x), '}')
+end
+
+function Base.showarg(io::IO, x::SingletonSet{<:Any,Set}, toplevel::Bool)
+    @nospecialize
+    print(io, "SingletonSet")
+    toplevel && print(io, '{', eltype(x), '}')
+end
+
+function Base.show(io::IO, ::MIME"text/plain", x::EmptySet{<:Any,Set})
+    @nospecialize
+    Base.showarg(io, x, true)
+    print(io, "()")
+end

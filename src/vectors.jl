@@ -88,3 +88,15 @@ end
 # fast-path:
 SingletonVector((x,)::Tuple{T}) where {T} = SingletonVector{T}(x)
 SingletonVector{T}((x,)::Tuple{Any}) where {T} = SingletonVector{T}(convert(T, x)::T)
+
+function Base.showarg(io::IO, v::EmptyVector{<:Any,Vector}, toplevel::Bool)
+    @nospecialize
+    print(io, "EmptyVector")
+    toplevel && print(io, '{', eltype(v), '}')
+end
+
+function Base.showarg(io::IO, v::SingletonVector{<:Any,Vector}, toplevel::Bool)
+    @nospecialize
+    print(io, "SingletonVector")
+    toplevel && print(io, '{', eltype(v), '}')
+end

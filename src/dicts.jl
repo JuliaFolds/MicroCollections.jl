@@ -93,3 +93,21 @@ function SingletonDict{K,V}(itr) where {K,V}
     k, v = kv
     return SingletonDict{K,V}(k => v)
 end
+
+function Base.showarg(io::IO, d::EmptyDict{<:Any,<:Any,Dict}, toplevel::Bool)
+    @nospecialize
+    print(io, "EmptyDict")
+    toplevel && print(io, '{', keytype(d), ',', valtype(d), '}')
+end
+
+function Base.showarg(io::IO, d::SingletonDict{<:Any,<:Any,Dict}, toplevel::Bool)
+    @nospecialize
+    print(io, "SingletonDict")
+    toplevel && print(io, '{', keytype(d), ',', valtype(d), '}')
+end
+
+function Base.show(io::IO, ::MIME"text/plain", d::EmptyDict{<:Any,<:Any,Dict})
+    @nospecialize
+    Base.showarg(io, d, true)
+    print(io, "()")
+end
