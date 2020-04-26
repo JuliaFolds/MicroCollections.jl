@@ -6,8 +6,14 @@ export EmptyDict,
     SingletonDict,
     SingletonSet,
     SingletonVector,
+    dict0,
+    dict1,
     emptyshim,
-    singletonshim
+    set0,
+    set1,
+    singletonshim,
+    vec0,
+    vec1
 
 include("core.jl")
 include("vectors.jl")

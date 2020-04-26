@@ -36,6 +36,60 @@ singletonshim
 emptyshim(T) = emptyshim(T, Union{})
 
 """
+    vec0(T::Type = Union{})
+
+Create an empty vector shim of element type `T`.
+"""
+vec0
+
+"""
+    vec1(x)
+
+Create a singleton vector with element `x`.
+"""
+vec1
+
+"""
+    dict0(T::Type = Pair{Union{},Union{}})
+
+Create an empty dict shim of element type `T`.
+"""
+dict0
+
+"""
+    dict1(k => v)
+
+Create a singleton dict with key `k` and value `v`.
+"""
+dict1
+
+"""
+    set0(T::Type = Union{})
+
+Create an empty set shim of element type `T`.
+"""
+set0
+
+"""
+    set1(x)
+
+Create a singleton set with element `x`.
+"""
+set1
+
+vec0() = emptyshim(Vector, Union{})
+vec0(::Type{T}) where {T} = emptyshim(Vector, T)
+vec1(x) = singletonshim(Vector, x)
+
+dict0() = emptyshim(Dict)
+dict0(::Type{T}) where {T} = emptyshim(Dict, T)
+dict1(x) = singletonshim(Dict, x)
+
+set0() = emptyshim(Set)
+set0(::Type{T}) where {T} = emptyshim(Set, T)
+set1(x) = singletonshim(Set, x)
+
+"""
     MicroCollections.upcast(singleton_container::C) -> container::C
 """
 upcast
