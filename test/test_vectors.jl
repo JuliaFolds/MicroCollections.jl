@@ -37,8 +37,9 @@ end
 @testset "singleton BitVector" begin
     ys = singletonshim(BitVector, true)
     @test ys[1] === true
-    @test vcat(ys, [false])::BitVector == [true, false]
-    @test_broken vcat(ys, [2])::Vector{Int} == [1, 2]
+    @test vcat(ys, [false]) == [true, false]
+    @test vcat(ys, [2]) == [1, 2]
+    @test_throws InexactError push!!(singletonshim(BitVector, 2), false)
 end
 
 end  # module

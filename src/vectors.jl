@@ -39,7 +39,7 @@ end
 SingletonVector{T}(x::T) where {T} = SingletonVector{T,Vector}(x)
 
 @inline getvalue(A::SingletonVector) = A.value
-# @inline upcast(A::SingletonVector{T,L}) where {T,L} = L(A)::AbstractVector{T}
+@inline upcast(A::AbstractMicroVector{T,L}) where {T,L} = L(A)::AbstractVector{T}
 
 Base.size(::AbstractEmptyVector) = (0,)
 Base.IndexStyle(::Type{<:AbstractEmptyVector}) = Base.IndexLinear()
@@ -53,16 +53,6 @@ Base.IndexStyle(::Type{<:AbstractSingletonVector}) = Base.IndexLinear()
     @boundscheck checkbounds(A, i)
     return getvalue(A)
 end
-
-BangBang.append!!(A::AbstractMicroVector{T,L}, B::AbstractVector) where {T,L} =
-    append!!(L(A)::AbstractVector{T}, B)
-# TODO: Avoid allocating array twice if `L(A)` is going to be widen
-# anyway.
-
-Base.vcat(A::AbstractMicroVector, B::AbstractVector, Cs::AbstractVector...) =
-    append!!(A, B, Cs...)
-
-BangBang.push!!(A::AbstractMicroVector, x) = append!!(A, SingletonVector((x,)))
 
 emptyshim(::Type{L}, ::Type{T}) where {T,L<:AbstractVector} = EmptyVector{T,L}()
 singletonshim(::Type{L}, x::T) where {T,L<:AbstractVector} = SingletonVector{T,L}(x)

@@ -35,6 +35,11 @@ singletonshim
 
 emptyshim(T) = emptyshim(T, Union{})
 
+"""
+    MicroCollections.upcast(singleton_container::C) -> container::C
+"""
+upcast
+
 # utils
 function validate_empty_iterator(itr, container_name)
     y = iterate(itr)

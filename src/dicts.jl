@@ -32,6 +32,7 @@ SingletonDict{K,V}((k, v)::Pair) where {K,V} =
     SingletonDict{K,V,Dict}(convert(K, k)::K, convert(V, v)::V)
 
 @inline getvalue(d::SingletonDict) = d.k => d.v
+@inline upcast(d::AbstractMicroDict{K,V,L}) where {K,V,L} = L(d)::AbstractDict{K,V}
 
 Base.length(::AbstractEmptyDict) = 0
 @inline Base.get(::AbstractEmptyDict, _, default) = default
@@ -47,9 +48,6 @@ Base.length(::AbstractSingletonDict) = 1
 end
 @inline Base.iterate(d::AbstractSingletonDict) = (getvalue(d), nothing)
 @inline Base.iterate(d::AbstractSingletonDict, ::Nothing) = nothing
-
-BangBang.merge!!(dest::AbstractMicroDict{K,V,L}, src) where {K,V,L} =
-    merge!!(L(dest)::AbstractDict{K,V}, src)
 
 emptyshim(::Type{L}) where {L<:AbstractDict} = EmptyDict{Union{},Union{},L}()
 emptyshim(::Type{L}, ::Type{Pair{K,V}}) where {K,V,L<:AbstractDict} = EmptyDict{K,V,L}()

@@ -24,6 +24,7 @@ end
 SingletonSet{T}(x::T) where {T} = SingletonSet{T,Set}(x)
 
 @inline getvalue(A::SingletonSet) = A.value
+@inline upcast(A::AbstractMicroSet{T,L}) where {T,L} = L(A)::AbstractSet{T}
 
 Base.length(::AbstractEmptySet) = 0
 @inline Base.iterate(::AbstractEmptySet) = nothing
@@ -31,8 +32,6 @@ Base.length(::AbstractEmptySet) = 0
 Base.length(::AbstractSingletonSet) = 1
 @inline Base.iterate(A::AbstractSingletonSet) = (getvalue(A), nothing)
 @inline Base.iterate(A::AbstractSingletonSet, ::Nothing) = nothing
-
-BangBang.union!!(A::AbstractMicroSet{T,L}, B) where {T,L} = union!!(L(A)::AbstractSet{T}, B)
 
 emptyshim(::Type{L}, ::Type{T}) where {T,L<:AbstractSet} = EmptySet{T,L}()
 singletonshim(::Type{L}, x::T) where {T,L<:AbstractSet} = SingletonSet{T,L}(x)
