@@ -5,33 +5,33 @@ MicroCollections.jl provides immutable empty and singleton collections.
 ```julia
 julia> using MicroCollections
 
-julia> vec0()
+julia> vec0()  # or EmptyVector()
 0-element EmptyVector{Union{}}
 
-julia> vec0(Int)
+julia> vec0(Int)  # or EmptyVector{Int}()
 0-element EmptyVector{Int64}
 
-julia> vec1(1)
+julia> vec1(1)  # or SingletonVector((1,))
 1-element SingletonVector{Int64}:
  1
 
-julia> dict0()
+julia> EmptyDict()
 EmptyDict{Union{},Union{}}()
 
-julia> dict0(Pair{Symbol,Char})
+julia> EmptyDict{Symbol,Char}()
 EmptyDict{Symbol,Char}()
 
-julia> dict1(:a => 0)
+julia> SingletonDict(:a => 0)
 SingletonDict{Symbol,Int64} with 1 entry:
   :a => 0
 
-julia> set0()
+julia> EmptySet()
 EmptySet{Union{}}()
 
-julia> set0(Int)
+julia> EmptySet{Int64}()
 EmptySet{Int64}()
 
-julia> set1(1)
+julia> SingletonSet((1,))
 SingletonSet{Int64} with 1 element:
   1
 ```
@@ -43,7 +43,7 @@ singleton solutions that can be combined with a reduce:
 julia> using BangBang.Experimental: mergewith!!
 
 julia> @assert mapreduce(
-           x -> dict1(abs(x) % 10 => 1), mergewith!!(+), 1:1000,
+           x -> SingletonDict(abs(x) % 10 => 1), mergewith!!(+), 1:1000,
        ) == Dict(
            0 => 100,
            1 => 100,
