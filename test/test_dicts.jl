@@ -41,14 +41,7 @@ end
         SingletonDict(:a => 0.5),
     )::Dict{Symbol,Float64} == Dict(:a => 1.5)
     @test _merge(+, EmptyDict(), SingletonDict(:a => 1))::Dict{Symbol,Int} == Dict(:a => 1)
-
-    @test _merge(+, SingletonDict(:a => 1), EmptyDict()) == Dict(:a => 1)
-    if _merge === merge!!
-        @test_broken _merge(+, SingletonDict(:a => 1), EmptyDict()) isa Dict{Symbol,Int}
-        # or is it OK to return a `SingletonDict`?
-    else
-        @test _merge(+, SingletonDict(:a => 1), EmptyDict()) isa Dict{Symbol,Int}
-    end
+    @test _merge(+, SingletonDict(:a => 1), EmptyDict())::Dict{Symbol,Int} == Dict(:a => 1)
 end
 
 end  # module

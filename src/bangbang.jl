@@ -1,7 +1,8 @@
 module BangBangImpl
 
 # TODO: Let BangBang depend on MicroCollections.
-using BangBang: BangBang, append!!, merge!!, union!!
+using BangBang: BangBang, append!!, push!!, setindex!!, union!!
+using BangBang.Experimental: mergewith!!
 
 using ..MicroCollections:
     AbstractMicroDict, AbstractMicroSet, AbstractMicroVector, SingletonVector, upcast
@@ -12,7 +13,24 @@ BangBang.append!!(A::AbstractMicroVector, B::AbstractVector) = append!!(upcast(A
 
 BangBang.push!!(A::AbstractMicroVector, x) = append!!(A, SingletonVector((x,)))
 
-BangBang.merge!!(dest::AbstractMicroDict, src) = merge!!(upcast(dest), src)
+struct _NoValue end
+
+function BangBang.Experimental.mergewith!!(combine, dict::AbstractMicroDict, other)
+    udict = foldl(push!!, pairs(other), init = upcast(dict))
+    if length(dict) == 0
+        return udict
+    else
+        k, v = first(dict)
+        vo = get(other, k, _NoValue())
+        if vo isa _NoValue
+            return udict
+        else
+            return setindex!!(udict, combine(v, vo), k)
+        end
+    end
+end
+
+BangBang.setindex!!(dict::AbstractMicroDict, v, k) = setindex!!(upcast(dict), v, k)
 
 BangBang.union!!(A::AbstractMicroSet, B) = union!!(upcast(A), B)
 

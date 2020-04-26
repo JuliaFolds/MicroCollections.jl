@@ -35,3 +35,25 @@ julia> set1(1)
 SingletonSet{Int64} with 1 element:
   1
 ```
+
+With BangBang.jl, MicroCollections.jl is useful for constructing
+singleton solutions that can be combined with a reduce:
+
+```julia
+julia> using BangBang.Experimental: mergewith!!
+
+julia> @assert mapreduce(
+           x -> dict1(abs(x) % 10 => 1), mergewith!!(+), 1:1000,
+       ) == Dict(
+           0 => 100,
+           1 => 100,
+           2 => 100,
+           3 => 100,
+           4 => 100,
+           5 => 100,
+           6 => 100,
+           7 => 100,
+           8 => 100,
+           9 => 100,
+       )
+```
