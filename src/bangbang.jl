@@ -5,7 +5,12 @@ using BangBang: BangBang, append!!, push!!, setindex!!, union!!
 using BangBang.Experimental: mergewith!!
 
 using ..MicroCollections:
-    AbstractMicroDict, AbstractMicroSet, AbstractMicroVector, SingletonVector, upcast
+    AbstractMicroDict,
+    AbstractMicroSet,
+    AbstractMicroVector,
+    SingletonVector,
+    UndefArray,
+    upcast
 
 BangBang.append!!(A::AbstractMicroVector, B::AbstractVector) = append!!(upcast(A), B)
 # TODO: Avoid allocating array twice if `upcast(A)` is going to be
@@ -33,5 +38,7 @@ end
 BangBang.setindex!!(dict::AbstractMicroDict, v, k) = setindex!!(upcast(dict), v, k)
 
 BangBang.union!!(A::AbstractMicroSet, B) = union!!(upcast(A), B)
+
+BangBang.implements(::typeof(resize!), ::Type{<:UndefArray}) = false
 
 end  # module
