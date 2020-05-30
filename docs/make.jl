@@ -10,4 +10,4 @@ makedocs(;
     strict = true,
 )
 
-deploydocs(; repo = "github.com/tkf/MicroCollections.jl")
+deploydocs(; repo = "github.com/tkf/MicroCollections.jl", push_preview = true)
