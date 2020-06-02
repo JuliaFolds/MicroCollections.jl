@@ -1,6 +1,7 @@
 # MicroCollections.jl
 
 ```@index
+Pages = ["index.md"]
 ```
 
 ```@autodocs
