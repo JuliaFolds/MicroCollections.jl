@@ -9,6 +9,8 @@ end MicroCollections
 export EmptyDict,
     EmptySet,
     EmptyVector,
+    OneHotArray,
+    OneHotVector,
     SingletonDict,
     SingletonSet,
     SingletonVector,
@@ -26,6 +28,7 @@ include("vectors.jl")
 include("dicts.jl")
 include("sets.jl")
 include("arrays.jl")
+include("onehot.jl")
 include("bangbang.jl")
 
 end # module

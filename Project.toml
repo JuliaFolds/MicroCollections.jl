@@ -5,10 +5,12 @@ version = "0.1.2-DEV"
 
 [deps]
 BangBang = "198e06fe-97b7-11e9-32a5-e1d131e6ad66"
+InitialValues = "22cec73e-a1b8-11e9-2c92-598750a2cf9c"
 Setfield = "efcf1570-3423-57d1-acb7-fd33fddbac46"
 
 [compat]
 BangBang = "0.3.21"
+InitialValues = "0.2.8, 0.3"
 Setfield = "0.4, 0.5, 0.6, 0.7, 0.8"
 julia = "1"
 
