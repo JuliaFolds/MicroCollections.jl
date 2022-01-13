@@ -59,10 +59,10 @@ const DimsLike = Union{Tuple{Vararg{Integer}},Integer}
 astuple(index) = (index,)
 astuple(index::Tuple) = index
 
-@inline function OneHotArray{T}(index_value::Pair, shape) where {T}
+@inline function OneHotArray{T}(index_value::Pair, shape::DimsLike) where {T}
     index = astuple(first(index_value))
     value = last(index_value)
-    array = _OneHotArray(T, index, value, shape)
+    array = _OneHotArray(T, index, value, astuple(shape))
     @boundscheck checkbounds(array, index...)
     return array
 end
@@ -75,6 +75,9 @@ end
 
 @inline OneHotArray{<:Any,N}(index_value::Pair{<:Any,T}, shape::DimsLike) where {N,T} =
     OneHotArray(index_value, astuple(shape))::OneHotArray{<:Any,N}
+
+@inline OneHotVector{T}(index_value::Pair, length::Integer) where {T,N} =
+    OneHotArray{T}(index_value, (length,))::OneHotArray{T,N}
 
 Base.size(A::OneHotArray) = A.shape
 
