@@ -100,3 +100,19 @@ function Base.showarg(io::IO, v::SingletonVector{<:Any,Vector}, toplevel::Bool)
     print(io, "SingletonVector")
     toplevel && print(io, '{', eltype(v), '}')
 end
+
+
+struct OptionalVector{T} <: AbstractMicroVector{T, Vector}
+    length::Int8
+    data::T
+
+    OptionalVector{T}() where {T} = new{T}(0)
+    OptionalVector{T}(x::T) where {T} = new{T}(1, x)
+end
+
+Base.size(a::OptionalVector) = (a.length,)
+Base.IndexStyle(::Type{<:OptionalVector}) = IndexLinear()
+Base.@propagate_inbounds function Base.getindex(a::OptionalVector, i::Integer)
+    @boundscheck checkbounds(a, i)
+    return a.data
+end
