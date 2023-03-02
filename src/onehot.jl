@@ -76,8 +76,8 @@ end
 @inline OneHotArray{<:Any,N}(index_value::Pair{<:Any,T}, shape::DimsLike) where {N,T} =
     OneHotArray(index_value, astuple(shape))::OneHotArray{<:Any,N}
 
-@inline OneHotVector{T}(index_value::Pair, length::Integer) where {T,N} =
-    OneHotArray{T}(index_value, (length,))::OneHotArray{T,N}
+@inline OneHotVector{T}(index_value::Pair, length::Integer) =
+    OneHotArray{T}(index_value, (length,))::OneHotArray{T,1}
 
 Base.size(A::OneHotArray) = A.shape
 
